@@ -3,9 +3,11 @@ const byline = require('byline');
 
 const archivoLog = './partial-kong.log';
 const stream = byline(fs.createReadStream(archivoLog, { encoding: 'utf8' }));
+try {
+  fs.unlinkSync('./visualize/js/groups.js');
+} catch(err){}
 
-const groups = {
-};
+const groups = {};
 
 function group({ year, month , consumer, service }) {
   if (!groups.hasOwnProperty(year)) {
@@ -14,13 +16,10 @@ function group({ year, month , consumer, service }) {
   if (!groups[year].hasOwnProperty(month)) {
     groups[year][month] = {};
   }
-  if (!groups[year][month].hasOwnProperty(service)) {
-    groups[year][month][service] = {};
-  }
-  if (groups[year][month][service].hasOwnProperty(consumer)) {
-    groups[year][month][service][consumer]++;
+  if (groups[year][month].hasOwnProperty(consumer)) {
+    groups[year][month][consumer]++;
   } else {
-    groups[year][month][service][consumer] = 0;
+    groups[year][month][consumer] = 0;
   }
 }
 
