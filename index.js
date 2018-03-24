@@ -1,42 +1,43 @@
 const fs = require('fs');
 const byline = require('byline');
 
-const stream = byline(fs.createReadStream('./log-kong.log', { encoding: 'utf8' }));
+const archivoLog = './partial-kong.log';
+const stream = byline(fs.createReadStream(archivoLog, { encoding: 'utf8' }));
 
-const gruposPorIp = {};
-const gruposPorUrl = {};
-const gruposPorConsumer = {};
+const groups = {
+};
 
-function agruparPorIp(ip) {
-  if (gruposPorIp.hasOwnProperty(ip)) {
-    gruposPorIp[ip] = gruposPorIp[ip] + 1;
-  } else {
-    gruposPorIp[ip] = 1;
+function group({ year, month , consumer, service }) {
+  if (!groups.hasOwnProperty(year)) {
+    groups[year] = {};
   }
-}
-
-function agruparPorConsumer(consumer) {
-  if (gruposPorConsumer.hasOwnProperty(consumer)) {
-    gruposPorConsumer[consumer] = gruposPorConsumer[consumer] + 1;
-  } else {
-    gruposPorConsumer[consumer] = 1;
+  if (!groups[year].hasOwnProperty(month)) {
+    groups[year][month] = {};
   }
-}
-
-function agruparPorUrl(url) {
-  if (gruposPorUrl.hasOwnProperty(url)) {
-    gruposPorUrl[url] = gruposPorUrl[url] + 1;
+  if (!groups[year][month].hasOwnProperty(service)) {
+    groups[year][month][service] = {};
+  }
+  if (groups[year][month][service].hasOwnProperty(consumer)) {
+    groups[year][month][service][consumer]++;
   } else {
-    gruposPorUrl[url] = 1;
+    groups[year][month][service][consumer] = 0;
   }
 }
 
 stream.on('data', function(line) {
-  const logEnJson = JSON.parse(line);
-  if (logEnJson.api.name === 'segip') { // solo para SEGIP
-    agruparPorIp(logEnJson.client_ip);
-    agruparPorUrl(logEnJson.request.uri);
-    agruparPorConsumer(logEnJson.consumer.username);
+  let logEnJson;
+  try {
+    logEnJson = JSON.parse(line);
+    const logDate = new Date(logEnJson.started_at);
+    group({
+      year: logDate.getFullYear(),
+      month: logDate.getMonth(),
+      consumer: logEnJson.consumer.username,
+      service: logEnJson.api.name,
+    });
+  } catch(err) {
+    console.error(err);
+    console.log('Unable to parse line', line);
   }
 });
 
@@ -47,15 +48,9 @@ stream.on('error', function(error) {
 });
 
 stream.on('finish', function(error) {
-  console.log('========================== POR CONSUMER =======================');
-  console.log(gruposPorConsumer);
-  console.log('===============================================================');
-
-  console.log('========================== POR URL =======================');
-  console.log(gruposPorUrl);
-  console.log('===============================================================');
-
-  console.log('========================== POR IP =======================');
-  console.log(gruposPorIp);
-  console.log('===============================================================');
+  fs.writeFile('./visualize/js/groups.js', `const data = ${JSON.stringify(groups, null, 2)}`, 'utf8', (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
 });
