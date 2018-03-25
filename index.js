@@ -1,11 +1,20 @@
 const fs = require('fs');
 const byline = require('byline');
+const program = require('commander');
 
-const archivoLog = './partial-kong.log';
-const stream = byline(fs.createReadStream(archivoLog, { encoding: 'utf8' }));
+program
+  .version('0.1.0')
+  .option('-f, --file [log-path]', 'Log path')
+  .parse(process.argv);
+
+let archivoLog = program.file || './partial-kong.log';
+
 try {
   fs.unlinkSync('./visualize/js/groups.js');
 } catch(err){}
+
+
+const stream = byline(fs.createReadStream(archivoLog, { encoding: 'utf8' }));
 
 const groups = {};
 
@@ -41,9 +50,7 @@ stream.on('data', function(line) {
 });
 
 stream.on('error', function(error) {
-  console.log('===============================================================');
-  console.log(error);
-  console.log('===============================================================');
+  console.error(error);
 });
 
 stream.on('finish', function(error) {
