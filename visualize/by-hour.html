@@ -20,12 +20,18 @@
 <body>
   <div class="container" id="header-container">
     <div class="row" id="header">
-      <div class="column"><h1 id="title">Requests by Month</h1></div>
+      <div class="column"><h1 id="title">Requests by Time</h1></div>
     </div>
   </div>
 
   <div class="container">
     <a href="#" onclick="showHelpDialog()"><img class="float-right" id="help-icon" src="./images/help.png" alt="Help" title="Help" width="30" height="30"></a>
+    <div class="row">
+      <div class="column">
+        <h2>Requests by Time <small>(GROUPED BY MOTH)</small></h2>
+      </div>
+    </div>
+
     <div class="row">
       <div class="column column-50">
         Year:
@@ -40,8 +46,34 @@
       </div>
     </div>
 
+    <br>
+
+    <div class="row">
+      <div class="column">
+          <h2>Requests by Consumer<small>(GROUPED BY DAY HOUR)</small></h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column column-30">
+        Year:
+        <select onChange="" id="cg-year"></select>
+      </div>
+      <div class="column column-30">
+        Month:
+        <select onChange="" id="cg-month"></select>
+      </div>
+      <div class="column column-40">
+        Hour:
+        <select onChange="" id="cg-hour">
+          <option>00:00 - 00:59</option>
+          <option>01:00 - 01:59</option>
+        </select>
+      </div>
+    </div>
+
   </div>
-<script src="js/groups.js"></script>
-  <script src="js/draw.js"></script>
+<script src="js/groups-by-hour.js"></script>
+  <script src="js/draw-by-hour.js"></script>
 </body>
 </html>

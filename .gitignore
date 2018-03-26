@@ -3,4 +3,6 @@ node_modules/
 package-lock.json
 kong.log
 partial-kong.log
-visualize/js/groups.js
+visualize/js/groups-by-year.js
+visualize/js/groups-by-consumer.js
+visualize/js/groups-by-hour.js
