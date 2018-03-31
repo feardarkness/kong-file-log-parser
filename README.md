@@ -4,6 +4,7 @@
 
 - [File-log plugin parser (Kong api gateway)](#file-log-plugin-parser-kong-api-gateway)
   - [What you need...](#what-you-need)
+  - [What to do next](#what-to-do-next)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,6 +32,9 @@ Check your logs easily (node >= 8.x.x).
   $ http-server ./visualize
   ```
 
-5. View the chart XD (http://127.0.0.1:8080)
+5. View the list of charts XD (http://127.0.0.1:8080)
 
 
+## What to do next
+
+More visualizations and parse of live logs.

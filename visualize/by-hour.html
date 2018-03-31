@@ -28,7 +28,7 @@
     <a href="#" onclick="showHelpDialog()"><img class="float-right" id="help-icon" src="./images/help.png" alt="Help" title="Help" width="30" height="30"></a>
     <div class="row">
       <div class="column">
-        <h2>Requests by Time <small>(GROUPED BY MOTH)</small></h2>
+        <h2>Requests by Hour <small>(GROUPED BY MONTH)</small></h2>
       </div>
     </div>
 
@@ -50,25 +50,54 @@
 
     <div class="row">
       <div class="column">
-          <h2>Requests by Consumer<small>(GROUPED BY DAY HOUR)</small></h2>
+          <h2>Average requests by hour<small>(GROUPED BY CONSUMER)</small></h2>
       </div>
     </div>
 
     <div class="row">
       <div class="column column-30">
         Year:
-        <select onChange="" id="cg-year"></select>
+        <select onChange="cgYearChanged(this.value)" id="cg-year"></select>
       </div>
       <div class="column column-30">
         Month:
-        <select onChange="" id="cg-month"></select>
+        <select onChange="cgMonthChanged(this.value)" id="cg-month"></select>
       </div>
       <div class="column column-40">
         Hour:
-        <select onChange="" id="cg-hour">
-          <option>00:00 - 00:59</option>
-          <option>01:00 - 01:59</option>
+        <select onChange="cgHourChanged(this.value)" id="cg-hour">
+          <option value="0">00:00 - 00:59</option>
+          <option value="1">01:00 - 01:59</option>
+          <option value="2">02:00 - 02:59</option>
+          <option value="3">03:00 - 03:59</option>
+          <option value="4">04:00 - 04:59</option>
+          <option value="5">05:00 - 05:59</option>
+          <option value="6">06:00 - 06:59</option>
+          <option value="7">07:00 - 07:59</option>
+          <option value="8">08:00 - 08:59</option>
+          <option value="9">09:00 - 09:59</option>
+          <option value="10">10:00 - 10:59</option>
+          <option value="11">11:00 - 11:59</option>
+          <option value="12">12:00 - 12:59</option>
+          <option value="13">13:00 - 13:59</option>
+          <option value="14">14:00 - 14:59</option>
+          <option value="15">15:00 - 15:59</option>
+          <option value="16">16:00 - 16:59</option>
+          <option value="17">17:00 - 17:59</option>
+          <option value="18">18:00 - 18:59</option>
+          <option value="19">19:00 - 19:59</option>
+          <option value="20">20:00 - 20:59</option>
+          <option value="21">21:00 - 21:59</option>
+          <option value="22">22:00 - 22:59</option>
+          <option value="23">23:00 - 23:59</option>
         </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column column-80 column-offset-10">
+        <canvas id="averageByHourCanvas" width="100" height="500">
+        </canvas>
       </div>
     </div>
 
